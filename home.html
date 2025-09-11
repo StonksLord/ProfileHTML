@@ -1,0 +1,317 @@
+
+
+</head>
+{% load static %}
+<head>
+    <title>Ethan's Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        #bio {
+            color: #fff;
+        }
+        
+        .hobby-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0.5rem 0;
+            gap: 2rem;
+        }
+
+        .hobby-img {
+            min-width: 80px;
+            min-height: 80px;
+            margin-left: 0;
+            margin-right: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hobby-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+        .hobby-desc {
+            font-size: 0.95rem;
+            color: #fff;
+        }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -2;
+            background: url('static/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: brightness(0.6);
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            pointer-events: none;
+            border-radius: 32px;
+            box-shadow: 0 0 0 8px rgba(0,0,0,0.2);
+            background: radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,0) 60%,
+                rgba(0,0,0,0.7) 100%
+    );
+            
+        }
+        .container {
+            max-width: 600px;
+            margin: 3rem auto;
+            background: rgba(34, 40, 49, 0.92);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            padding: 2rem;
+        }
+        h1 {
+            text-align: center;
+            color: #f8f8f2;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 8px #ffd369, 0 2px 8px #222831;
+            animation: glow-breathe 2.5s ease-in-out infinite;
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5rem;
+        }
+        strong {
+            text-shadow: 0 0 8px #ffd369;
+            animation: glow-breathe 2.5s ease-in-out infinite;
+        }
+        @keyframes glow-breathe {
+            0% { text-shadow: 0 0 8px #ffd369, 0 2px 8px #222831; }
+            50% { text-shadow: 0 0 24px #ffd369, 0 2px 16px #222831; }
+            100% { text-shadow: 0 0 8px #ffd369, 0 2px 8px #222831; }
+        }
+        .reveal-btn {
+            display: block;
+            width: 100%;
+            margin: 1rem 0;
+            padding: 0.75rem;
+            font-size: 1.2rem;
+            background: #30475e;
+            color: #f8f8f2;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-shadow: 0 0 8px #ffd369;
+            animation: glow-breathe 2.5s ease-in-out infinite;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+        }
+        .reveal-btn:hover {
+            background: #222831;
+        }
+        .content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: max-height 0.7s cubic-bezier(.4,0,.2,1), opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+            background: rgba(44, 54, 70, 0.95);
+            border-radius: 8px;
+        }
+        .content.visible {
+            max-height: 800px;
+            opacity: 1;
+            transform: translateY(0);
+            padding: 1rem;
+        }
+        .divider {
+            height: 2px;
+            background: #fff;
+            margin: 0.2rem 0;
+            border-radius: 1px;
+            opacity: 0.7;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .food-grid img {
+            width: 100%;
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            object-fit: cover;
+            background: #222831;
+        }
+
+        .img-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+        }
+        .img-modal-content {
+            max-width: 80vw;
+            max-height: 80vh;
+            border-radius: 18px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+            display: block;
+            margin: auto;
+        }
+        .img-modal-close {
+            position: absolute;
+            top: 32px;
+            right: 48px;
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10001;
+            text-shadow: 0 2px 8px #222;
+        }
+        .socials {
+            text-align: center;
+        }
+        .socials a {
+            margin: 0 1rem;
+            color: #ffd369;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .socials a:hover {
+            color: #f8f8f2;
+        }
+    </style>
+    <script>
+        function reveal(id) {
+            var el = document.getElementById(id);
+            if (el.classList.contains('visible')) {
+                el.classList.remove('visible');
+            } else {
+                el.classList.add('visible');
+            }
+        }
+
+        function showModal(src) {
+            var modal = document.getElementById('imgModal');
+            var modalImg = document.getElementById('imgModalSrc');
+            modalImg.src = src;
+            modal.style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('imgModal').style.display = 'none';
+}
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Who?</h1>
+        <button class="reveal-btn" onclick="reveal('bio')">Bio</button>
+        <div class="content" id="bio">
+            <p>Hello! I'm Ethan. Currently a 2nd year Commerce student that's majoring in Information Systems. 
+                I have a strong passion for tech and coding alongside business, and I'm always eager to learn more. 
+                I've taken several COMP courses in UNSW so I'm not entirely new to coding!</p>
+            <div style="text-align:center; margin-top:1.5rem;">
+                <img src="static/images/snoopy.png" alt="Snoopy" style="max-width:220px; width:100%; border-radius:18px; box-shadow:0 4px 16px rgba(0,0,0,0.18); ">
+            </div>
+            <p>I also really love snoopy hehe</p>     
+        </div>
+        <button class="reveal-btn" onclick="reveal('hobbies')">Hobbies</button>
+        <div class="content" id="hobbies">
+            <ul>
+                <div class="hobby-row">
+                    <span class="hobby-title">Video Games</span>
+                    <span class="hobby-desc">any fps titles you can think of, playing since I was a lil kid</span>
+                    <span class="hobby-img"><img src="static/images/fps.png" alt="Video Games" style="max-width:120px;max-height:120px;border-radius:16px;" onclick="showModal(this.src)"></span>
+                    
+                </div>
+                <div class="divider"></div>
+                <div class="hobby-row">
+                    <span class="hobby-title">Bouldering</span>
+                    <span class="hobby-desc">started going actively not long ago, hovering around v3-4 rn</span>
+                    <span class="hobby-img"><img src="static/images/bouldering.png" alt="Bouldering" style="max-width:120px;max-height:120px;border-radius:16px;" onclick="showModal(this.src)"></span>
+                </div>
+                <div class="divider"></div>
+                <div class="hobby-row">
+                        <span class="hobby-title">Clash Royale</span>
+                        <span class="hobby-desc">on that grind. ttvbobbyjuan is my idol HURNGHHHHHHHH</span>
+                    <span class="hobby-img"><img src="static/images/clash.png" alt="Clash Royale" style="max-width:120px;max-height:120px;border-radius:16px;" onclick="showModal(this.src)"></span>
+                </div>
+                <div class="divider"></div>
+                <div class="hobby-row">
+                        <span class="hobby-title">Guitar</span>
+                        <span class="hobby-desc">Hopping on the guitar sometimes when I have the time</span>
+                    <span class="hobby-img"><img src="static/images/guitar.png" alt="Guitar" style="max-width:120px;max-height:120px;border-radius:16px;" onclick="showModal(this.src)"></span>
+                </div>
+                <div class="divider"></div>
+                <div class="hobby-row">
+                        <span class="hobby-title">Sleeping</span>
+                        <span class="hobby-desc">I love sleeping but i'm not very good at it</span>
+                    <span class="hobby-img"><img src="static/images/sleeping.png" alt="Sleeping" style="max-width:120px;max-height:120px;border-radius:16px" onclick="showModal(this.src)"> </span>
+                </div>
+            </ul>
+        </div>
+        <button class="reveal-btn" onclick="reveal('food')">Food</button>
+            <div class="content" id="food">
+                <div class="food-grid">
+                    <img src="static/images/Food 1.jpg" alt="Food 1" onclick="showModal(this.src)">
+                    <img src="static/images/Food 2.jpg" alt="Food 2" onclick="showModal(this.src)">
+                    <img src="static/images/Food 3.jpg" alt="Food 3" onclick="showModal(this.src)">
+                    <img src="static/images/Food 4.jpg" alt="Food 4" onclick="showModal(this.src)">
+                    <img src="static/images/Food 5.jpg" alt="Food 5" onclick="showModal(this.src)">
+                    <img src="static/images/Food 6.jpg" alt="Food 6" onclick="showModal(this.src)">
+                    <img src="static/images/Food 7.png" alt="Food 7" onclick="showModal(this.src)">
+                    <img src="static/images/Food 8.jpg" alt="Food 8" onclick="showModal(this.src)">
+                    <img src="static/images/Food 9.jpg" alt="Food 9" onclick="showModal(this.src)">
+                    <img src="static/images/Food 10.jpg" alt="Food 10" onclick="showModal(this.src)">
+                    <img src="static/images/Food 11.jpg" alt="Food 11" onclick="showModal(this.src)">
+                    <img src="static/images/Food 12.jpg" alt="Food 12" onclick="showModal(this.src)">
+                </div>
+                <p class="hobby-desc">
+                    I was very hungry while I was making this so now you have to look at all these delicous dishes too
+                </p>
+            </div>
+            
+        <button class="reveal-btn" onclick="reveal('socials')">Socials</button>
+        <div class="content socials" id="socials">
+            <a href="https://www.instagram.com/ethanwoo._" target="_blank" aria-label="Instagram">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;"><rect width="24" height="24" rx="6" fill="#ffd369"/><path d="M12 8.5A3.5 3.5 0 1 0 12 15.5A3.5 3.5 0 1 0 12 8.5Z" stroke="#222831" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="#222831"/></svg>
+                Instagram
+            </a>
+            <a href="https://github.com/StonksLord" target="_blank" aria-label="GitHub">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;"><rect width="24" height="24" rx="6" fill="#ffd369"/><path d="M12 2C6.48 2 2 6.48 2 12C2 16.42 5.06 20.17 9.26 21.5C9.86 21.58 10.08 21.23 10.08 20.93C10.08 20.66 10.07 19.97 10.07 19.13C7 19.78 6.34 17.97 6.34 17.97C5.82 16.74 5.03 16.41 5.03 16.41C3.97 15.7 5.11 15.72 5.11 15.72C6.28 15.81 6.87 16.93 6.87 16.93C7.92 18.7 9.68 18.19 10.34 17.91C10.43 17.13 10.73 16.62 11.07 16.34C8.07 16.04 4.92 15.06 4.92 10.73C4.92 9.51 5.36 8.56 6.07 7.81C5.97 7.53 5.59 6.37 6.17 4.91C6.17 4.91 7.07 4.62 10.07 6.17C10.97 5.93 11.93 5.81 12.89 5.81C13.85 5.81 14.81 5.93 15.71 6.17C18.71 4.62 19.61 4.91 19.61 4.91C20.19 6.37 19.81 7.53 19.71 7.81C20.42 8.56 20.86 9.51 20.86 10.73C20.86 15.07 17.7 16.03 14.7 16.33C15.14 16.7 15.53 17.45 15.53 18.54C15.53 20.13 15.52 21.32 15.52 21.93C15.52 22.23 15.74 22.59 16.34 21.5C20.54 20.17 23.6 16.42 23.6 12C23.6 6.48 19.12 2 13.6 2H12Z" fill="#222831"/></svg>
+                GitHub
+            </a>
+            <a href="mailto:ethanwoojl@gmail.com" aria-label="Email">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;"><rect width="24" height="24" rx="6" fill="#ffd369"/><path d="M4 8V16C4 17.1 4.9 18 6 18H18C19.1 18 20 17.1 20 16V8C20 6.9 19.1 6 18 6H6C4.9 6 4 6.9 4 8ZM6 8L12 13L18 8" stroke="#222831" stroke-width="1.5"/></svg>
+                Email
+            </a>
+            <a href="https://www.linkedin.com/in/ethan-woo-6aba36218" target="_blank" aria-label="LinkedIn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;"><rect width="24" height="24" rx="6" fill="#ffd369"/><path d="M7.5 8.5V16M7.5 8.5H7.51M7.5 8.5V16M12 12.5V16M12 12.5C12 11.3954 12.8954 10.5 14 10.5C15.1046 10.5 16 11.3954 16 12.5V16M7.5 8.5H7.51" stroke="#222831" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                LinkedIn
+            </a>
+        </div>
+    </div>
+
+    <div id="imgModal" class="img-modal" onclick="closeModal()">
+    <span class="img-modal-close" onclick="closeModal()">&times;</span>
+    <img class="img-modal-content" id="imgModalSrc" src="" alt="Full Image">
+</div>
+</body>
+</html>
